@@ -24,7 +24,7 @@ fun leerCotizaciones(ficheroArchivo: Path): Map<String, MutableList<Double>> {
             for (i in 1 until valores.size) {
                 val columna = cabecera[i]
                 //esto me dio muchos errores
-                val valor = valores[i].replace(".", "").replace(",", ".")
+                val valor = valores[i].replace(".", "").replace(",", ".")//Cambiar comas
                     datosPorColumna[columna]?.add(valor.toDouble())
             }
         }
