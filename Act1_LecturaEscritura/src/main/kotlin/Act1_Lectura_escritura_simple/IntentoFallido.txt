@@ -1,0 +1,49 @@
+package Act1_Lectura_escritura_simple
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.io.BufferedReader
+
+// recibe una ruta y crea un mapa
+fun leerCotizaciones(ruta: Path): Map<String, MutableList<String>> {
+    // Creamos un mapa con cada columna
+    val datosPorColumnas = mutableMapOf(
+        "Nombre" to mutableListOf<String>(),
+        "Final" to mutableListOf<String>(),
+        "Maximo" to mutableListOf<String>(),
+        "Minimo" to mutableListOf<String>(),
+        "Volumen" to mutableListOf<String>(),
+        "Efectivo" to mutableListOf<String>()
+    )
+
+    // Abrimos el archivo y lo leemos línea por línea
+    Files.newBufferedReader(ruta).use { reader: BufferedReader ->
+        // La primera fila son los nombre
+        reader.readLine()
+
+        // Para cada línea del archivo
+        reader.forEachLine { linea ->
+            // Dividimos la línea por ";" y obtenemos los valores
+            val columnas = linea.split(";")
+
+            // Añadimos los valores a las listas correspondientes
+            datosPorColumnas["Nombre"]?.add(columnas[0])
+            datosPorColumnas["Final"]?.add(columnas[1])
+            datosPorColumnas["Maximo"]?.add(columnas[2])
+            datosPorColumnas["Minimo"]?.add(columnas[3])
+            datosPorColumnas["Volumen"]?.add(columnas[4])
+            datosPorColumnas["Efectivo"]?.add(columnas[5])
+        }
+    }
+    return datosPorColumnas
+}
+
+fun main() {
+    val raiz = Path.of("src")
+    val ficheroArchivo = raiz.resolve("main").resolve("resources").resolve("cotizacion.csv")
+
+    val cotizaciones = leerCotizaciones(ficheroArchivo)
+
+    // Imprimimos el resultado para verificar
+    println(cotizaciones)
+}
